@@ -1,0 +1,16 @@
+{
+  "name": "n3",
+  "version": "1.0.0",
+  "description": "Este repositório será feito para salvar o projeto da avaliação N3 da matéria de Server-Side",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
