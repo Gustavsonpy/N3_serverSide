@@ -14,5 +14,7 @@ CREATE TABLE Prestador(
 	nome_prestador VARCHAR(45) NOT NULL,
 	tempo_experiencia INT NOT NULL,
 	fk_categoria INT NOT NULL,
-	fk_servico INT NOT NULL
+	fk_servico INT NOT NULL,
+	FOREIGN KEY(fk_categoria) REFERENCES Categoria(id_categoria) ON DELETE CASCADE,
+	FOREIGN KEY(fk_servico) REFERENCES Servico(id_servico) ON DELETE CASCADE
 );
