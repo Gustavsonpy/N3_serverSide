@@ -1,0 +1,18 @@
+CREATE TABLE Categoria(
+	id_categoria INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	nome_categoria VARCHAR(45) NOT NULL
+);
+
+CREATE TABLE Servico(
+	id_servico INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	nome_servico VARCHAR(45) NOT NULL,
+	valor_servico DECIMAL(19, 4)
+);
+
+CREATE TABLE Prestador(
+	id_prestador INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	nome_prestador VARCHAR(45) NOT NULL,
+	tempo_experiencia INT NOT NULL,
+	fk_categoria INT NOT NULL,
+	fk_servico INT NOT NULL
+);
