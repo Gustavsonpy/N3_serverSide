@@ -2,10 +2,10 @@ import express from "express";
 import { getPrestadores, createPrestador } from "../controllers/prestador_controller.js";
 
 
-let route = express.Router();
+let prestador_route = express.Router();
 
-route.get('/prestadores', getPrestadores);
-route.post('/newPrestador', createPrestador);
+prestador_route.get('/prestadores', getPrestadores);
+prestador_route.post('/newPrestador', createPrestador);
 
 
-export {route};
+export {prestador_route};

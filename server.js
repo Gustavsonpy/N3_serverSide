@@ -1,5 +1,6 @@
 import express, { Router } from "express";
-import { route } from "./routes/prestador_route.js";
+import { prestador_route } from "./routes/prestador_route.js";
+import { servico_route } from "./routes/servico_route.js";
 import db from "./config/database.js";
 
 const port = 3000;
@@ -13,7 +14,8 @@ try {
     console.log("Conexão com o Mysql não estabelecida\n", e)
 }
 
-server.use("/", route);
+server.use("/prestador", prestador_route);
+server.use("/servico", servico_route);
 
 server.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`)
