@@ -1,5 +1,6 @@
 import Servico from "../models/servico_model.js";
 import db from "../config/database.js";
+import Prestador from "../models/prestador_model.js";
 
 async function syncDatabase() {
     await db.sync(); //Ver se é servico
@@ -94,6 +95,29 @@ export let updatePrecoServico = async(req, res) =>{
     }catch(e){
         res.status(500).send("Não foi possível atualizar o valor do servico\n");
         console.log("Erro:\n\n", e);
+    }
+}
+
+export let getPriceServicoByHour = async(req, res) => {
+    //Verificar porque ele não encontra prestador
+    console.log(`\n\nTempo: ${req.body.tempo_experiencia}\n\n`)
+   const prestador = await Prestador.findAll({
+    where: {
+        tempo_experiencia: req.body.tempo_experiencia
+    }
+   })
+   if(prestador){console.log(`\n\nACHOU PRESTADOR: ${prestador}\n\n`);}
+   const horas = req.body.horasServico
+
+   let valorFixo = 50.00
+   let valorTotal = valorFixo * horas
+   
+   if(prestador.tempo_experiencia < 1){
+        if(prestador.tempo_experiencia = 2){(valorTotal += (20/100 * valorTotal))}
+        if(prestador.tempo_experiencia > 2 && prestador.tempo_experiencia <= 5){(valorTotal += (40/100 * valorTotal))}
+        if(prestador.tempo_experiencia > 5){(valorTotal += (65/100 * valorTotal))}
+        res.status(200).send(`Valor total do serviço: R$${valorTotal}`)
+    }else{res.status(500).send(`Tempo de experiência insuficiente!\n\nTempo: ${prestador.tempo_experiencia}`)
     }
 }
 
