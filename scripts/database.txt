@@ -18,3 +18,10 @@ CREATE TABLE Prestador(
 	FOREIGN KEY(fk_categoria) REFERENCES Categoria(id_categoria) ON DELETE CASCADE,
 	FOREIGN KEY(fk_servico) REFERENCES Servico(id_servico) ON DELETE CASCADE
 );
+
+CREATE TABLE usuario(
+	id_usuario INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	nome VARCHAR(50) NOT NULL,
+	senha_usuario VARCHAR(50) NOT NULL,
+	email_usuario VARCHAR(50) NOT NULL
+);
