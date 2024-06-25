@@ -3,7 +3,7 @@ import db from "../config/database.js";
 import Prestador from "../models/prestador_model.js";
 
 async function syncDatabase() {
-    await db.sync(); //Ver se é servico
+    await db.sync();
 }
 
 syncDatabase();
@@ -99,26 +99,32 @@ export let updatePrecoServico = async(req, res) =>{
 }
 
 export let getPriceServicoByHour = async(req, res) => {
-    //Verificar porque ele não encontra prestador
-    console.log(`\n\nTempo: ${req.body.tempo_experiencia}\n\n`)
    const prestador = await Prestador.findAll({
     where: {
         tempo_experiencia: req.body.tempo_experiencia
     }
    })
-   if(prestador){console.log(`\n\nACHOU PRESTADOR: ${prestador}\n\n`);}
    const horas = req.body.horasServico
 
-   let valorFixo = 50.00
-   let valorTotal = valorFixo * horas
-   
-   if(prestador.tempo_experiencia < 1){
-        if(prestador.tempo_experiencia = 2){(valorTotal += (20/100 * valorTotal))}
-        if(prestador.tempo_experiencia > 2 && prestador.tempo_experiencia <= 5){(valorTotal += (40/100 * valorTotal))}
-        if(prestador.tempo_experiencia > 5){(valorTotal += (65/100 * valorTotal))}
-        res.status(200).send(`Valor total do serviço: R$${valorTotal}`)
-    }else{res.status(500).send(`Tempo de experiência insuficiente!\n\nTempo: ${prestador.tempo_experiencia}`)
-    }
+   let ValorJson = 0;
+   let JsonResponse = [];
+   let valorFixo = 50.00;
+   let valorTotal = valorFixo * horas;
+
+   prestador.forEach(prest => {
+    if(prest.tempo_experiencia >= 1){
+        if(prest.tempo_experiencia === 2){(valorTotal += (20/100 * valorTotal))}
+        if(prest.tempo_experiencia > 2 && prest.tempo_experiencia <= 5){(valorTotal += (40/100 * valorTotal))}
+        if(prest.tempo_experiencia > 5){(valorTotal += (65/100 * valorTotal))}
+        // res.status(200).send(`Valor total do serviço: R$${valorTotal}`)
+        ValorJson = JSON.stringify({
+            nome_prestador: prest.nome_prestador,
+            valor_servico: "R$"+valorTotal 
+        });
+        JsonResponse.push(ValorJson);
+    }else{res.status(500).send(`Tempo de experiência insuficiente!\n\nTempo: ${prest.tempo_experiencia}`)}
+   });
+   res.status(200).send(`Serviços: ${JsonResponse}`)
 }
 
 //-------------------------------------------------------------------------------
