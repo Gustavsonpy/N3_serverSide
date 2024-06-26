@@ -15,18 +15,6 @@ const server = express()
 server.use(bodyParser.json())
 server.use(express.json());
 
-const secretOrPrivateKey = 'n3serverside';
-
-function criacaoToken() {
-    const dados = {
-        id: 1,
-        usuario: "guilherme"
-    };
-    
-    const criacao = jwt.sign(dados, secretOrPrivateKey);
-    return criacao;
-}
-
 //JWT HOME
 server.get('/', (req, res, next) => {
     res.json({ message: "Servidor funcionando!" })
@@ -56,7 +44,7 @@ server.post('/logoff', function(req, res) {
 })
 
 // VERIFICAR TOKEN
-function verifyJWT(req, res, next){
+export function verifyJWT(req, res, next){
     const token = req.headers['x-access-token']
     
     if (!token) return res.status(401).json({
